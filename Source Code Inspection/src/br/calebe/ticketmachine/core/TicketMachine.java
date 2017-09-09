@@ -6,44 +6,49 @@ import java.util.Iterator;
 
 /**
  *
- * @author Calebe de Paula Bianchini
+ * @author Leonardo Ferreira Silveira Lima
  */
 public class TicketMachine {
 
-    protected int valor;
-    protected int saldo;
-    protected int[] papelMoeda = {2, 5, 10, 20, 50, 100};
+    //Os atributos passam a ser private.
+    private int precoDoBilhete;
+    private int saldo;
+    private int[] papelMoeda = {2, 5, 10, 20, 50, 100};
 
     public TicketMachine(int valor) {
-        this.valor = valor;
+        this.precoDoBilhete = valor;
         this.saldo = 0;
     }
 
     public void inserir(int quantia) throws PapelMoedaInvalidaException {
         boolean achou = false;
         for (int i = 0; i < papelMoeda.length && !achou; i++) {
-            if (papelMoeda[1] == quantia) {
+            //Percorre o vetor corretamente, acessando as outras posições. 
+            if (papelMoeda[i] == quantia) {
                 achou = true;
             }
+            if (!achou) { //Com isso, a exceção é lançada toda vez que uma nota invalida é inserida.
+                throw new PapelMoedaInvalidaException();
+            }
+            this.saldo += quantia;
         }
-        if (!achou) {
-            throw new PapelMoedaInvalidaException();
-        }
-        this.saldo += quantia;
     }
 
     public int getSaldo() {
         return saldo;
     }
 
-    public Iterator<Integer> getTroco() {
-        return null;
+    public Iterator<PapelMoeda> getTroco() {
+        //Funcão Implementada.
+        Troco troco = new Troco(saldo);
+        return troco.getIterator();
     }
 
     public String imprimir() throws SaldoInsuficienteException {
-        if (saldo < valor) {
+        if (saldo < precoDoBilhete) {
             throw new SaldoInsuficienteException();
         }
+        saldo -= precoDoBilhete; //Saldo atualizado com o débito.
         String result = "*****************\n";
         result += "*** R$ " + saldo + ",00 ****\n";
         result += "*****************\n";
