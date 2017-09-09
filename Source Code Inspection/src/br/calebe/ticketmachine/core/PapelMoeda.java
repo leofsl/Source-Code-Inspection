@@ -2,7 +2,7 @@ package br.calebe.ticketmachine.core;
 
 /**
  *
- * @author Calebe de Paula Bianchini
+ * @author Leonardo Ferreira Silveira Lima
  */
 public class PapelMoeda {
 
@@ -20,5 +20,14 @@ public class PapelMoeda {
 
     public int getQuantidade() {
         return quantidade;
+    }
+
+    //Setters adicionados.
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 }
